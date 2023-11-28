@@ -11,6 +11,7 @@ button.onclick = () => {
         const value = array_100.filter(el => !message.includes(el))
         res.value = value.map(el=>el<10?"0"+el:el).join(" ")
         copy_btn.innerHTML= `Copy ${value.length} số`
+        copy_btn.disabled=false
     } else {
         res.value= "Dãy số không hợp lệ"
     }
