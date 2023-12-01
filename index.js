@@ -1,5 +1,9 @@
 const button = document.getElementById("button")
-button.onclick = () => {
+const getReverseArray100 = (arr) => {
+    const array_100 = Array(100).fill(0).map((n, i) => n + i)
+    return array_100.filter(el => !arr.includes(el))
+}
+const reverse = () => {
     const req = document.getElementById("req").value
     let res = document.getElementById("res")
     let copy_btn = document.getElementById("copy-btn")
@@ -8,7 +12,7 @@ button.onclick = () => {
     if (raw_message.split(" ").every(isNumeric)) {
 
         const message = raw_message.split(" ").map(Number)
-        const value = array_100.filter(el => !message.includes(el))
+        const value = getReverseArray100(message)
         res.value = value.map(el => el < 10 ? "0" + el : el).join(" ")
         copy_btn.innerHTML = `Copy ${value.length} số`
         copy_btn.disabled = false
@@ -17,6 +21,7 @@ button.onclick = () => {
     }
 
 }
+button.onclick = () => reverse()
 
 function isNumeric(str) {
     if (typeof str != "string") return false // we only process strings!  
@@ -38,21 +43,52 @@ function copyText() {
     });
 }
 
-function random() {
-    // Get the text field
+const randomEngine = (ignore_values) => {
     let new_50_array = [getRandomNumberIn0To99()]
     for (let i = 0; i < 49; i++) {
         let value = new_50_array[0]
-        while (new_50_array.includes(value)) {
+        while (
+            new_50_array.includes(value)
+            || ignore_values.includes(value)
+        ) {
             value = getRandomNumberIn0To99()
         }
         new_50_array.push(value)
     }
-    new_50_array.sort((a,b)=>a-b)
+    new_50_array.sort((a, b) => a - b)
+    const array_100 = Array(100).fill(0).map((n, i) => n + i)
+    const reverse_new_50_array = array_100.filter(el => !new_50_array.includes(el))
+
+    for (let i = 0; i < 50; i++) {
+        const found_index = reverse_new_50_array.findIndex(el => el === ignore_values[i])
+        if (found_index >= 0) {
+            let value = reverse_new_50_array[found_index]
+            while (
+                reverse_new_50_array.includes(value) ||
+                value === ignore_values[i]
+            ) {
+                value = getRandomNumberIn0To99()
+            }
+            reverse_new_50_array[found_index] = value
+        }
+    }
+    return array_100.filter(el => !reverse_new_50_array.includes(el))
+}
+
+function random() {
+    // Get the text field
+    const ignore_values = data_storage.getNewestResults(50)
+    const random = randomEngine(ignore_values)
     const req = document.getElementById("req")
-    req.value = new_50_array.map(el => el < 10 ? "0" + el : el).join(" ")
+    req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
+    reverse()
 }
 
 function getRandomNumberIn0To99() {
     return Math.floor(Math.random() * 100)
+    // return getRandomNumberIn0To9() * 10 + getRandomNumberIn0To9()
+}
+
+function getRandomNumberIn0To9() {
+    return Math.floor(Math.random() * 10)
 }
