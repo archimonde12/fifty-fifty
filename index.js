@@ -14,7 +14,7 @@ const reverse = () => {
         const message = raw_message.split(" ").map(Number)
         const value = getReverseArray100(message)
         res.value = value.map(el => el < 10 ? "0" + el : el).join(" ")
-        copy_btn.innerHTML = `Copy ${value.length} số`
+        copy_btn.innerHTML = `Sao chép ${value.length} số`
         copy_btn.disabled = false
     } else {
         res.value = "Dãy số không hợp lệ"
@@ -28,7 +28,6 @@ function isNumeric(str) {
     return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
-
 function copyText() {
     // Get the text field
     var copyText = document.getElementById("res");
@@ -39,7 +38,20 @@ function copyText() {
 
     // Copy the text inside the text field
     navigator.clipboard.writeText(copyText.value).then(function (x) {
-        alert("Link copied to clipboard: " + copyText.value);
+        alert("Nội dung sao chép: " + copyText.value);
+    });
+}
+function copyInputText() {
+    // Get the text field
+    var copyText = document.getElementById("req");
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value).then(function (x) {
+        alert("Nội dung sao chép: " + copyText.value);
     });
 }
 
