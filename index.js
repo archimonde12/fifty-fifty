@@ -56,15 +56,16 @@ function copyInputText() {
 }
 
 const randomEngine = (ignore_values) => {
-    let random = getRandomNumberIn(0, 25)
-    let new_50_array = [getRandomNumberIn(random, random + 75)]
+    let random = getRandomNumberIn(0, 35)
+    let range = 65
+    let new_50_array = [getRandomNumberIn(random, random + range)]
     for (let i = 0; i < 49; i++) {
         let value = new_50_array[0]
         while (
             new_50_array.includes(value)
             // || ignore_values.includes(value)
         ) {
-            value = getRandomNumberIn(random, random + 75)
+            value = getRandomNumberIn(random, random + range)
         }
         new_50_array.push(value)
     }
