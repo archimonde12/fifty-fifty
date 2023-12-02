@@ -56,35 +56,36 @@ function copyInputText() {
 }
 
 const randomEngine = (ignore_values) => {
-    let new_50_array = [getRandomNumberIn0To99()]
+    let random = getRandomNumberIn(0, 25)
+    let new_50_array = [getRandomNumberIn(random, random + 75)]
     for (let i = 0; i < 49; i++) {
         let value = new_50_array[0]
         while (
             new_50_array.includes(value)
-            || ignore_values.includes(value)
+            // || ignore_values.includes(value)
         ) {
-            value = getRandomNumberIn0To99()
+            value = getRandomNumberIn(random, random + 75)
         }
         new_50_array.push(value)
     }
     new_50_array.sort((a, b) => a - b)
-    const array_100 = Array(100).fill(0).map((n, i) => n + i)
-    const reverse_new_50_array = array_100.filter(el => !new_50_array.includes(el))
+    // const array_100 = Array(100).fill(0).map((n, i) => n + i)
+    // const reverse_new_50_array = array_100.filter(el => !new_50_array.includes(el))
 
-    for (let i = 0; i < 50; i++) {
-        const found_index = reverse_new_50_array.findIndex(el => el === ignore_values[i])
-        if (found_index >= 0) {
-            let value = reverse_new_50_array[found_index]
-            while (
-                reverse_new_50_array.includes(value) ||
-                value === ignore_values[i]
-            ) {
-                value = getRandomNumberIn0To99()
-            }
-            reverse_new_50_array[found_index] = value
-        }
-    }
-    return array_100.filter(el => !reverse_new_50_array.includes(el))
+    // for (let i = 0; i < 50; i++) {
+    //     const found_index = reverse_new_50_array.findIndex(el => el === ignore_values[i])
+    //     if (found_index >= 0) {
+    //         let value = reverse_new_50_array[found_index]
+    //         while (
+    //             reverse_new_50_array.includes(value) ||
+    //             value === ignore_values[i]
+    //         ) {
+    //             value = getRandomNumberIn0To99()
+    //         }
+    //         reverse_new_50_array[found_index] = value
+    //     }
+    // }
+    return new_50_array
 }
 
 function random() {
@@ -96,8 +97,8 @@ function random() {
     reverse()
 }
 
-function getRandomNumberIn0To99() {
-    return Math.floor(Math.random() * 100)
+function getRandomNumberIn(from, to) {
+    return from + Math.floor(Math.random() * (to - from))
     // return getRandomNumberIn0To9() * 10 + getRandomNumberIn0To9()
 }
 
