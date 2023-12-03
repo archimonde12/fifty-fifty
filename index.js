@@ -23,7 +23,7 @@ const reverse = () => {
     } else {
         res.value = "Dãy số không hợp lệ"
     }
- 
+
 }
 button.onclick = () => reverse()
 
@@ -35,6 +35,20 @@ function isNumeric(str) {
 function copyText() {
     // Get the text field
     var copyText = document.getElementById("res");
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value).then(function (x) {
+        alert("Nội dung sao chép: " + copyText.value);
+    });
+}
+
+function copyMe(value) {
+    // Get the text field
+    var copyText = document.getElementById(value);
 
     // Select the text field
     copyText.select();
@@ -130,7 +144,7 @@ function randomFocus() {
     printInput(random)
 }
 
-function printInput(random) { 
+function printInput(random) {
     const req = document.getElementById("req")
     req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
     const heatmap = document.getElementById("heatmap-input")
@@ -139,6 +153,20 @@ function printInput(random) {
         new_heatmap += (random.includes(i) ? `<p class="black-rec"></p>` : `<p class="white-rec"></p>`)
     }
     heatmap.innerHTML = new_heatmap
+    let copy_10_input = document.getElementById("copy-10-input")
+    copy_10_input.innerHTML = ""
+    console.log({ copy_10_input })
+    const chunkSize = 10
+    for (let i = 0; i < random.length; i += chunkSize) {
+        const chunk = random.slice(i, i + chunkSize);
+        copy_10_input.innerHTML += `<textarea id="ten_${i}" cols="30" rows="1" type="text">${chunk.map(el => el < 10 ? "0" + el : el).join(" ")}</textarea><div></div>`
+
+    }
+    for (let i = 0; i < random.length; i += chunkSize) {
+        var inputElement = document.getElementById(`ten_${i}`);
+        console.log(inputElement)
+        inputElement.onclick = () => copyMe(`ten_${i}`)
+    }
     reverse()
 }
 
@@ -146,6 +174,7 @@ function getRandomNumberIn(from, to) {
     return from + Math.floor(Math.random() * (to - from))
     // return getRandomNumberIn0To9() * 10 + getRandomNumberIn0To9()
 }
+
 
 function getRandomNumberIn0To9() {
     return Math.floor(Math.random() * 10)
