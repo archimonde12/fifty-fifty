@@ -6,17 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fifty Fifty v1.1</title>
 </head>
+<style>
+    .black-rec {
+        width: 4.25px;
+        height: 4.25px;
+        background-color: tomato;
+        margin-top: 1px;
+        margin-bottom: 5px;
+    }
+
+    .white-rec {
+        width: 4.25px;
+        height: 4.25px;
+        background-color: rgb(125, 124, 124);
+        margin-top: 1px;
+        margin-bottom: 5px;
+    }
+
+    .space {
+        width: 5px;
+        height: 5px;
+        margin-top: 1px;
+        margin-bottom: 5px;
+    }
+</style>
 
 <body>
-    <textarea id="req" name="w3review" rows="4" cols="50" placeholder="Nhập dãy số từ [0,99] ngăn cách bới dấu cách ... VD:01 03 05 ..."></textarea>
+    <textarea id="req" name="w3review" rows="4" cols="50"
+        placeholder="Nhập dãy số từ [0,99] ngăn cách bới dấu cách ... VD:01 03 05 ..."></textarea>
     <div></div>
-    <button id="button" type="button">Bắt đầu</button>
-    <button id="random" onclick="random()" type="button">Lấy ngẫu nhiên 50 số</button>
+    <div id="heatmap-input" style="display: flex">
+        <p class="space"></p>
+    </div>
+    <div></div>
     <button id="copy-input-btn" onclick="copyInputText()">Sao chép ô nhập</button>
+    <div></div>
+    <button id="button" type="button">Đảo ngược</button>
+    <button id="random" onclick="random()" type="button">Ngẫu nhiên 50 số</button>
+    <button id="random" onclick="randomFocus()" type="button">Ngẫu nhiên tập trung 50 số </button>
     <div></div>
     <textarea id="res" name="w3review" rows="4" cols="50" disabled>
 
-        </textarea>
+    </textarea>
+    <div></div>
+    <div id="heatmap-output" style="display: flex">
+        <p class="space"></p>
+    </div>
+    <div></div>
     <button id="copy-btn" onclick="copyText()" disabled>Sao chép</button>
     <script src="old_data.js"></script>
     <script src="data_storage.js"></script>

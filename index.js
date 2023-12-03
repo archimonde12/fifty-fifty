@@ -7,12 +7,16 @@ const reverse = () => {
     const req = document.getElementById("req").value
     let res = document.getElementById("res")
     let copy_btn = document.getElementById("copy-btn")
-    const array_100 = Array(100).fill(0).map((n, i) => n + i)
     const raw_message = req.trim()
     if (raw_message.split(" ").every(isNumeric)) {
-
         const message = raw_message.split(" ").map(Number)
         const value = getReverseArray100(message)
+        const heatmap = document.getElementById("heatmap-output")
+        let new_heatmap = ""
+        for (let i = 0; i < 100; i++) {
+            new_heatmap += (value.includes(i) ? `<p class="black-rec"></p>` : `<p class="white-rec"></p>`)
+        }
+        heatmap.innerHTML = new_heatmap
         res.value = value.map(el => el < 10 ? "0" + el : el).join(" ")
         copy_btn.innerHTML = `Sao chép ${value.length} số`
         copy_btn.disabled = false
@@ -55,17 +59,42 @@ function copyInputText() {
     });
 }
 
-const randomEngine = (ignore_values) => {
-    let random = getRandomNumberIn(0, 35)
-    let range = 65
-    let new_50_array = [getRandomNumberIn(random, random + range)]
+const randomEngine = () => {
+    let new_50_array = [getRandomNumberIn(0, 100)]
     for (let i = 0; i < 49; i++) {
+        let value = new_50_array[0]
+        while (
+            new_50_array.includes(value)
+        ) {
+            value = getRandomNumberIn(0, 100)
+        }
+        new_50_array.push(value)
+    }
+    new_50_array.sort((a, b) => a - b)
+    return new_50_array
+}
+
+const randomEngineFocus = () => {
+    let random = getRandomNumberIn(0, 45)
+    let range = 55
+    let new_50_array = [getRandomNumberIn(random, random + range)]
+    for (let i = 0; i < 40; i++) {
         let value = new_50_array[0]
         while (
             new_50_array.includes(value)
             // || ignore_values.includes(value)
         ) {
             value = getRandomNumberIn(random, random + range)
+        }
+        new_50_array.push(value)
+    }
+    for (let i = 0; i < 10; i++) {
+        let value = new_50_array[0]
+        while (
+            new_50_array.includes(value)
+            // || ignore_values.includes(value)
+        ) {
+            value = getRandomNumberIn(0, 100)
         }
         new_50_array.push(value)
     }
@@ -91,10 +120,25 @@ const randomEngine = (ignore_values) => {
 
 function random() {
     // Get the text field
-    const ignore_values = data_storage.getNewestResults(50)
-    const random = randomEngine(ignore_values)
+    const random = randomEngine()
+    printInput(random)
+}
+
+function randomFocus() {
+    // Get the text field
+    const random = randomEngineFocus()
+    printInput(random)
+}
+
+function printInput(random) { 
     const req = document.getElementById("req")
     req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
+    const heatmap = document.getElementById("heatmap-input")
+    let new_heatmap = ""
+    for (let i = 0; i < 100; i++) {
+        new_heatmap += (random.includes(i) ? `<p class="black-rec"></p>` : `<p class="white-rec"></p>`)
+    }
+    heatmap.innerHTML = new_heatmap
     reverse()
 }
 
