@@ -25,7 +25,7 @@ const reverse = () => {
     }
 
 }
-button.onclick = () => reverse()
+button.onclick = () => printInput()
 
 function isNumeric(str) {
     if (typeof str != "string") return false // we only process strings!  
@@ -145,8 +145,13 @@ function randomFocus() {
 }
 
 function printInput(random) {
-    const req = document.getElementById("req")
-    req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
+    if(random){
+        const req = document.getElementById("req")
+        req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
+    } else {
+        const req = document.getElementById("req")
+        random=req.value.split(" ").map(Number)
+    }
     const heatmap = document.getElementById("heatmap-input")
     let new_heatmap = ""
     for (let i = 0; i < 100; i++) {
