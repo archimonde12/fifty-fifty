@@ -159,7 +159,7 @@ function printInput(random) {
     const chunkSize = 10
     for (let i = 0; i < random.length; i += chunkSize) {
         const chunk = random.slice(i, i + chunkSize);
-        copy_10_input.innerHTML += `<textarea id="ten_${i}" cols="30" rows="1" type="text">${chunk.map(el => el < 10 ? "0" + el : el).join(" ")}</textarea><div></div>`
+        copy_10_input.innerHTML += `<textarea id="ten_${i}" cols="27" rows="1" type="text">${chunk.map(el => el < 10 ? "0" + el : el).join(" ")}</textarea><div></div>`
 
     }
     for (let i = 0; i < random.length; i += chunkSize) {
