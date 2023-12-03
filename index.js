@@ -75,10 +75,10 @@ const randomEngine = () => {
 }
 
 const randomEngineFocus = () => {
-    let random = getRandomNumberIn(0, 45)
-    let range = 55
+    let random = getRandomNumberIn(0, 35)
+    let range = 65
     let new_50_array = [getRandomNumberIn(random, random + range)]
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 44; i++) {
         let value = new_50_array[0]
         while (
             new_50_array.includes(value)
