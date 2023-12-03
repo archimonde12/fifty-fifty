@@ -23,7 +23,7 @@ const reverse = () => {
     } else {
         res.value = "Dãy số không hợp lệ"
     }
-
+ 
 }
 button.onclick = () => reverse()
 
