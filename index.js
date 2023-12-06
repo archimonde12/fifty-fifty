@@ -1,31 +1,45 @@
 const button = document.getElementById("button")
+const switch_style_btn = document.getElementById("switch-style-btn")
 const getReverseArray100 = (arr) => {
     const array_100 = Array(100).fill(0).map((n, i) => n + i)
     return array_100.filter(el => !arr.includes(el))
 }
+
+const printReverse = (raw_message, split) => {
+    const message = raw_message.split(split).map(Number)
+    const value = getReverseArray100(message)
+    const heatmap = document.getElementById("heatmap-output")
+    let new_heatmap = ""
+    for (let i = 0; i < 100; i++) {
+        new_heatmap += (value.includes(i) ? `<p class="black-rec"></p>` : `<p class="white-rec"></p>`)
+    }
+    heatmap.innerHTML = new_heatmap
+    let copy_btn = document.getElementById("copy-btn")
+    res.value = value.map(el => el < 10 ? "0" + el : el).join(split)
+    copy_btn.innerHTML = `Sao chép ${value.length} số`
+    copy_btn.disabled = false
+}
 const reverse = () => {
     const req = document.getElementById("req").value
     let res = document.getElementById("res")
-    let copy_btn = document.getElementById("copy-btn")
+
     const raw_message = req.trim()
+
     if (raw_message.split(" ").every(isNumeric)) {
-        const message = raw_message.split(" ").map(Number)
-        const value = getReverseArray100(message)
-        const heatmap = document.getElementById("heatmap-output")
-        let new_heatmap = ""
-        for (let i = 0; i < 100; i++) {
-            new_heatmap += (value.includes(i) ? `<p class="black-rec"></p>` : `<p class="white-rec"></p>`)
-        }
-        heatmap.innerHTML = new_heatmap
-        res.value = value.map(el => el < 10 ? "0" + el : el).join(" ")
-        copy_btn.innerHTML = `Sao chép ${value.length} số`
-        copy_btn.disabled = false
-    } else {
-        res.value = "Dãy số không hợp lệ"
+        printReverse(raw_message, " ")
+        return
     }
 
+    if (raw_message.split(",").every(isNumeric)) {
+        printReverse(raw_message, ",")
+        return
+    }
+    res.value = "Dãy số không hợp lệ"
+
 }
+
 button.onclick = () => printInput()
+switch_style_btn.onclick = () => SwithStyle()
 
 function isNumeric(str) {
     if (typeof str != "string") return false // we only process strings!  
@@ -136,21 +150,28 @@ function random() {
     // Get the text field
     const random = randomEngine()
     printInput(random)
+    switch_style_btn.textContent = "Kiểu dấu cách"
 }
 
 function randomFocus() {
     // Get the text field
     const random = randomEngineFocus()
     printInput(random)
+    switch_style_btn.textContent = "Kiểu dấu cách"
 }
 
 function printInput(random) {
-    if(random){
+    if (random) {
         const req = document.getElementById("req")
         req.value = random.map(el => el < 10 ? "0" + el : el).join(" ")
     } else {
         const req = document.getElementById("req")
-        random=req.value.split(" ").map(Number)
+        if (req.value.split(" ").every(isNumeric)) {
+            random = req.value.split(" ").map(Number)
+        }
+        if (req.value.split(",").every(isNumeric)) {
+            random = req.value.split(",").map(Number)
+        }
     }
     const heatmap = document.getElementById("heatmap-input")
     let new_heatmap = ""
@@ -164,7 +185,7 @@ function printInput(random) {
     const chunkSize = 10
     for (let i = 0; i < random.length; i += chunkSize) {
         const chunk = random.slice(i, i + chunkSize);
-        copy_10_input.innerHTML += `<textarea id="ten_${i}" cols="27" rows="1" type="text">${chunk.map(el => el < 10 ? "0" + el : el).join(" ")}</textarea><div></div>`
+        copy_10_input.innerHTML += `<textarea class="10" id="ten_${i}" cols="27" rows="1" type="text">${chunk.map(el => el < 10 ? "0" + el : el).join(" ")}</textarea><div></div>`
 
     }
     for (let i = 0; i < random.length; i += chunkSize) {
@@ -180,7 +201,40 @@ function getRandomNumberIn(from, to) {
     // return getRandomNumberIn0To9() * 10 + getRandomNumberIn0To9()
 }
 
-
 function getRandomNumberIn0To9() {
     return Math.floor(Math.random() * 10)
+}
+function SwithStyle() {
+    switch (switch_style_btn.textContent) {
+        case "Kiểu dấu cách": {
+            switch_style_btn.textContent = "Kiểu dấu phẩy"
+            ChangeStyleInId("req", ",")
+            ChangeStyleInId("res", ",")
+            for (let i = 0; i < 100; i += 10) {
+                ChangeStyleInId(`ten_${i}`, ",")
+            }
+        }
+            break;
+        case "Kiểu dấu phẩy": {
+            switch_style_btn.textContent = "Kiểu dấu cách"
+            ChangeStyleInId("req", " ")
+            ChangeStyleInId("res", " ")
+            for (let i = 0; i < 100; i += 10) {
+                ChangeStyleInId(`ten_${i}`, " ")
+            }
+        }
+            break;
+    }
+}
+
+function ChangeStyleInId(id, style) {
+    const dom = document.getElementById(id)
+    if (dom) {
+        if (dom.value.split(" ").every(isNumeric)) {
+            dom.value = dom.value.split(" ").join(style)
+        }
+        if (dom.value.split(",").every(isNumeric)) {
+            dom.value = dom.value.split(",").join(style)
+        }
+    }
 }
