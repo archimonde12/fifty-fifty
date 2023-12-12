@@ -47,17 +47,7 @@ function isNumeric(str) {
         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 function copyText() {
-    // Get the text field
-    var copyText = document.getElementById("res");
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value).then(function (x) {
-        alert("Nội dung sao chép: " + copyText.value);
-    });
+    copyMe("res")
 }
 
 function copyMe(value) {
@@ -67,24 +57,15 @@ function copyMe(value) {
     // Select the text field
     copyText.select();
     copyText.setSelectionRange(0, 99999); // For mobile devices
-
+    copyText.style = "background-color: #ACCEF7;"
     // Copy the text inside the text field
     navigator.clipboard.writeText(copyText.value).then(function (x) {
         alert("Nội dung sao chép: " + copyText.value);
+        copyText.style = "background-color: #FFFFFF;"
     });
 }
 function copyInputText() {
-    // Get the text field
-    var copyText = document.getElementById("req");
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value).then(function (x) {
-        alert("Nội dung sao chép: " + copyText.value);
-    });
+    copyMe("req")
 }
 
 const randomEngine = () => {
@@ -238,3 +219,13 @@ function ChangeStyleInId(id, style) {
         }
     }
 }
+
+async function UpdateIp() {
+    fetch("https://api.ipify.org?format=json").then((value) => value.json()).then((data) => {
+        const ip = document.getElementById("ip")
+        ip.textContent = `IP: ${data.ip}`
+    })
+
+}
+
+UpdateIp()
